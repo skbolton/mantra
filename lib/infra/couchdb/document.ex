@@ -2,6 +2,7 @@ defmodule Infra.CouchDB.Document do
   @moduledoc """
   Utilities for working with CouchDB documents.
   """
+  alias Mantra.Accounts.Account
   alias Mantra.Contents.{Block, Page}
 
   @doc """
@@ -45,4 +46,5 @@ defmodule Infra.CouchDB.Document do
 
   defp document_type_for(%Page{}), do: "page"
   defp document_type_for(%Block{}), do: "block"
+  defp document_type_for(%Account{}), do: "account"
 end

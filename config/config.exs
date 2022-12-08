@@ -24,6 +24,7 @@ config :mantra, MantraWeb.Endpoint,
 config :mantra, Mantra.Mailer, adapter: Swoosh.Adapters.Local
 
 # behaviours and contracts
+config :mantra, Mantra.Accounts.AccountRepo, Infra.CouchDB.AccountRepo
 config :mantra, Mantra.Contents.ContentRepo, Infra.CouchDB.ContentRepo
 
 # Swoosh API client is needed for adapters other than SMTP.
