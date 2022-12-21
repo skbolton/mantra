@@ -3,6 +3,13 @@ defmodule Mantra.Contents do
   defp contents_repo(), do: Application.get_env(:mantra, Mantra.Contents.ContentRepo)
 
   @doc """
+  Returns a list of pages
+  """
+  def list_pages() do
+    contents_repo().list_pages()
+  end
+
+  @doc """
   Creates a new Page.
 
   Page will fail to create if the title is not unique.

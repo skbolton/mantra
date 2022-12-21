@@ -7,6 +7,17 @@ defmodule Infra.CouchDB.ContentRepo do
   alias Mantra.Contents.{Block, Page}
 
   @impl Mantra.Contents.ContentRepo
+  def list_pages() do
+    case Client.get("/blocks/_design/blocks/_view/pages", query: [include_docs: true]) do
+      {:ok, %{"rows" => rows}} ->
+        Enum.map(rows, fn %{"doc" => page} -> Document.from_doc(Page, page) end)
+
+      {:error, _error} ->
+        []
+    end
+  end
+
+  @impl Mantra.Contents.ContentRepo
   def get_page_by(:id, page_id) do
     with {:ok, doc} <- Client.get("/blocks/#{page_id}") do
       Document.from_doc(Page, doc)
