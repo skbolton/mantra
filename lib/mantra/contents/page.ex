@@ -8,6 +8,7 @@ defmodule Mantra.Contents.Page do
           title: String.t()
         }
 
+  @derive Jason.Encoder
   embedded_schema do
     field :rev, :string
     field :title, :string

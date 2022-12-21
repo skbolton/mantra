@@ -14,10 +14,10 @@ defmodule MantraWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", MantraWeb do
-    pipe_through :browser
+  scope "/api", MantraWeb do
+    pipe_through :api
 
-    get "/", PageController, :index
+    get "/pages", PageController, :index
   end
 
   # Other scopes may use custom stacks.

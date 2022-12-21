@@ -1,7 +1,8 @@
 defmodule MantraWeb.PageController do
   use MantraWeb, :controller
+  alias Mantra.Contents
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    json(conn, %{pages: Contents.list_pages()})
   end
 end
