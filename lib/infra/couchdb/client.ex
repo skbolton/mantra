@@ -26,6 +26,24 @@ defmodule Infra.CouchDB.Client do
     end
   end
 
+  def post(url, doc, opts \\ []) do
+    client()
+    |> Tesla.post(url, doc, opts)
+    |> case do
+      {:ok, %{status: 400, body: %{"reason" => reason}}} ->
+        {:error, CouchDB.BadRequest.exception(reason)}
+
+      {:ok, %{status: 401, body: %{"reason" => reason}}} ->
+        {:error, CouchDB.Unauthorized.exception(reason)}
+
+      {:ok, %{status: 412, body: %{"reason" => reason}}} ->
+        {:error, CouchDB.PreconditionFailed.exception(reason)}
+
+      {:ok, %{body: body}} ->
+        {:ok, body}
+    end
+  end
+
   def get(url, opts \\ []) do
     client()
     |> Tesla.get(url, opts)

@@ -18,6 +18,26 @@ defmodule Infra.CouchDB.ContentRepo do
   end
 
   @impl Mantra.Contents.ContentRepo
+  def page_blocks(page_blocks_query) do
+    params =
+      page_blocks_query
+      |> Map.take([:limit, :skip])
+      |> Map.merge(%{
+        include_docs: true,
+        startkey: page_blocks_query.page_id,
+        endkey: "#{page_blocks_query.page_id}\ufff0"
+      })
+
+    case Client.post("/blocks/_design/blocks/_view/page-blocks", params) do
+      {:ok, %{"rows" => rows}} ->
+        Enum.map(rows, fn %{"doc" => block} -> Document.from_doc(Block, block) end)
+
+      {:error, _error} ->
+        []
+    end
+  end
+
+  @impl Mantra.Contents.ContentRepo
   def get_page_by(:id, page_id) do
     with {:ok, doc} <- Client.get("/blocks/#{page_id}") do
       Document.from_doc(Page, doc)

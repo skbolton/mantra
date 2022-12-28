@@ -1,8 +1,10 @@
 defmodule Mantra.Contents.ContentRepo do
   alias Ecto.Changeset
-  alias Mantra.Contents.{Block, Page}
+  alias Mantra.Contents.{Block, Page, PageBlocksQuery}
 
   @callback list_pages() :: [Page.t()]
+
+  @callback page_blocks(PageBlocksQuery.t()) :: [Block.t()]
 
   @callback create_page(Changeset.t(Page.t())) ::
               {:ok, Page.t()} | {:error, Changeset.t(Page.t())}

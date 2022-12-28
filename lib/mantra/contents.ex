@@ -1,5 +1,5 @@
 defmodule Mantra.Contents do
-  alias Mantra.Contents.{Block, Page}
+  alias Mantra.Contents.{Block, Page, PageBlocksQuery}
   defp contents_repo(), do: Application.get_env(:mantra, Mantra.Contents.ContentRepo)
 
   @doc """
@@ -7,6 +7,11 @@ defmodule Mantra.Contents do
   """
   def list_pages() do
     contents_repo().list_pages()
+  end
+
+  @spec page_blocks(PageBlocksQuery.t()) :: [Block.t()]
+  def page_blocks(params) do
+    contents_repo().page_blocks(params)
   end
 
   @doc """

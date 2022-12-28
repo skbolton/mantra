@@ -14,6 +14,7 @@ defmodule Mantra.Contents.Block do
           todo: Todo.t() | nil
         }
 
+  @derive Jason.Encoder
   embedded_schema do
     field :rev, :string
     field :content, :string

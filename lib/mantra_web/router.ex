@@ -18,6 +18,7 @@ defmodule MantraWeb.Router do
     pipe_through :api
 
     get "/pages", PageController, :index
+    get "/pages/:page_id/blocks", PageController, :blocks
   end
 
   # Other scopes may use custom stacks.
