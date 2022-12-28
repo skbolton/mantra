@@ -10,6 +10,7 @@ defmodule Mantra.Contents.Block do
           ancestors: [String.t()],
           links: [Link.t()],
           position: String.t(),
+          positions: [String.t(), ...],
           todo: Todo.t() | nil
         }
 
@@ -19,13 +20,14 @@ defmodule Mantra.Contents.Block do
     field :ancestors, {:array, :string}
     field :links, {:array, :string}
     field :position, :string
+    field :positions, {:array, :string}
     embeds_one :todo, Todo, on_replace: :update
   end
 
   def create_changeset(block, params \\ %{}) do
     block
-    |> cast(params, [:content, :ancestors, :position])
-    |> validate_required([:content, :ancestors, :position])
+    |> cast(params, [:content, :ancestors, :position, :positions])
+    |> validate_required([:content, :ancestors, :position, :positions])
     |> put_links()
     |> cast_embed(:todo)
   end
