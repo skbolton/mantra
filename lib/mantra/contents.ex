@@ -28,7 +28,10 @@ defmodule Mantra.Contents do
         block_changeset =
           Block.create_changeset(
             %Block{},
-            Map.put(block_params, :ancestors, [page.id])
+            Map.merge(block_params, %{
+              ancestors: [page.id],
+              positions: [block_params[:position] | [page.id]]
+            })
           )
 
         contents_repo().add_block_to_page(page, block_changeset)
@@ -44,7 +47,10 @@ defmodule Mantra.Contents do
         block_changeset =
           Block.create_changeset(
             %Block{},
-            Map.put(block_params, :ancestors, [parent_block.id | parent_block.ancestors])
+            Map.merge(block_params, %{
+              ancestors: [parent_block.id | parent_block.ancestors],
+              positions: [block_params[:position] | parent_block.positions]
+            })
           )
 
         contents_repo().add_block_to_block(parent_block, block_changeset)
